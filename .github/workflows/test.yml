@@ -36,7 +36,7 @@ jobs:
         apt-get install -y curl unzip
         echo "downloading terraform"
         curl -sSLo ./terraform.zip https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
-        unzip terraform.zip 
+        unzip -u terraform.zip 
         echo "installing terraform"
         rm terraform.zip 
         mv terraform /usr/local/bin/
