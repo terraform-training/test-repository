@@ -32,26 +32,17 @@ jobs:
     
     - name: Terraform Install Check
       run: |
-        apt-get update
-        apt-get install -y curl unzip
-        mkdir tmp && cd tmp
-        echo "downloading terraform"
-        curl -sSLo ./terraform.zip https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_arm.zip
-        unzip -u terraform.zip 
-        echo "installing terraform"
-        rm terraform.zip 
-        mv terraform /usr/local/bin/terraform
-        echo "checking terraform"
-        terraform version
-        printenv
+        cd /tmp
+        apt-get update && apt-get install -y curl unzip
+        echo "downloading terraform" && curl -sSLo ./terraform.zip https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_arm.zip
+        echo "installing terraform" && unzip -u terraform.zip && rm terraform.zip && mv terraform /usr/local/bin/terraform
+        echo "checking terraform" && terraform version
   
     - name: Terraform-docs installation
       run: |
+        cd /tmp
         curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.16.0/terraform-docs-v0.16.0-$(uname)-arm.tar.gz
-        tar -xzf terraform-docs.tar.gz
-        chmod +x terraform-docs
-        ls -al
-        mv terraform-docs /usr/local/bin/terraform-docs
+        tar -xzf terraform-docs.tar.gz && chmod +x terraform-docs && mv terraform-docs /usr/local/bin/terraform-docs
         aws s3 ls s3://terraform-training-tfstates/
 
     - name: Terraform Format
