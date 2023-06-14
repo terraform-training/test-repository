@@ -24,7 +24,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./
+        working-directory: ./terraform
     
     steps:
     - name: Checkout
@@ -47,7 +47,7 @@ jobs:
   
     - name: Terraform Format
       run: terraform fmt -check -recursive
-      
+
     - name: Terraform-docs installation
       run: |
         cd /tmp
@@ -55,4 +55,12 @@ jobs:
         tar -xzf terraform-docs.tar.gz && chmod +x terraform-docs && mv terraform-docs /usr/local/bin/terraform-docs
         aws s3 ls s3://terraform-training-tfstates/
 
- 
+    - name: Terraform init
+      run: terraform init
+
+    - name: Terraform plan
+      run: terraform plan
+
+    # - name: Terraform apply
+    #   working-directory: ./terraform
+    #   run: terraform plan
