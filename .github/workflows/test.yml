@@ -1,0 +1,62 @@
+name: 'Test the Code'
+
+
+env: 
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: eu-central-1
+
+on: workflow_dispatch
+
+jobs:
+
+  test:
+    name: 'Test Terraform Format'
+    strategy:
+      fail-fast: false
+    concurrency: 
+      group: test
+      cancel-in-progress: false
+    # runs-on: ubuntu-latest
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./terraform
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check -recursive
+  
+  tools:
+    strategy:
+      fail-fast: false
+    name: 'Validate Terraform Docs'
+    concurrency: 
+      group: validate
+      cancel-in-progress: false
+    # runs-on: ubuntu-latest
+    runs-on: self-hosted
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Install
+      run: terraform version
+  
+    - name: Terraform-docs installation
+      run: |
+        curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.16.0/terraform-docs-v0.16.0-$(uname)-amd64.tar.gz
+        tar -xzf terraform-docs.tar.gz
+        chmod +x terraform-docs
+        sudo mv terraform-docs /usr/local/bin/terraform-docs
+        aws s3 ls s3://terraform-training-tfstates/
+ 
