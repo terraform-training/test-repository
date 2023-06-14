@@ -39,6 +39,8 @@ jobs:
       cancel-in-progress: false
     # runs-on: ubuntu-latest
     runs-on: self-hosted
+    container:
+      image: ncsystems/kook
     defaults:
       run:
         shell: bash
@@ -48,8 +50,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
     
-    # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Install
+    - name: Terraform Install Check
       run: terraform version
   
     - name: Terraform-docs installation
