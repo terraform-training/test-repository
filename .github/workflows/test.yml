@@ -13,7 +13,7 @@ jobs:
   tools:
     strategy:
       fail-fast: false
-    name: 'Validate Terraform Docs'
+    name: 'Validate Terraform'
     concurrency: 
       group: validate
       cancel-in-progress: false

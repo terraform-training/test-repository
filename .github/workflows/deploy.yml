@@ -1,4 +1,4 @@
-name: 'Test the Code'
+name: 'Deploy the Code'
 
 
 env: 
@@ -13,7 +13,7 @@ jobs:
   deploy:
     strategy:
       fail-fast: false
-    name: 'Validate Terraform Docs'
+    name: 'Apply Terraform Code'
     concurrency: 
       group: deploy
       cancel-in-progress: false
