@@ -35,11 +35,16 @@ jobs:
         apt-get update
         apt-get install -y curl unzip
         echo "downloading terraform"
+        ls -al
         curl -sSLo ./terraform.zip https://releases.hashicorp.com/terraform/1.5.0/terraform_1.5.0_linux_amd64.zip
+        ls -al
         unzip -u terraform.zip 
         echo "installing terraform"
         rm terraform.zip 
-        mv terraform /usr/local/bin/
+        pwd
+        ls -al
+        mv terraform /usr/local/bin/terraform
+        ls /usr/local/bin/t*
         echo "checking terraform"
         terraform version
   
